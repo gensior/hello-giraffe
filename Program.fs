@@ -6,6 +6,7 @@ open Microsoft.AspNetCore.Http
 open Giraffe
 open Giraffe.EndpointRouting
 open Giraffe.ViewEngine
+open System.Collections.Generic
 
 let indexView =
     html [] [
@@ -66,8 +67,13 @@ let main args =
     configureApp app
 
     let port = 
-        match Environment.GetEnvironmentVariable("PORT") with 
-        | null -> "8080"
-        | _ -> Environment.GetEnvironmentVariable("PORT")
+        Environment.GetEnvironmentVariable("PORT")
+        |> Option.ofObj
+        |> Option.defaultValue "8080"
+
+    Environment.GetEnvironmentVariables().Keys
+    |> Seq.cast
+    |> Seq.iter (printfn "env:%s")
+    
     app.Run(sprintf "http://0.0.0.0:%s" port)
     0
