@@ -70,7 +70,7 @@ let main args =
     let host = Env.getHostOrDefault "http://127.0.0.1"
     let port = Env.getPortOrDefault "8080"
 
-    sprintf "host: %s" host |> ignore
+    printfn "host: %s" host
     
     app.Run(sprintf "http://0.0.0.0:%s" port)
     0
