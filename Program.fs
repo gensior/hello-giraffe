@@ -67,10 +67,17 @@ let main args =
 
     configureApp app
 
-    let host = Env.getHostOrDefault "http://127.0.0.1"
-    let port = Env.getPortOrDefault "8080"
+    let mutable url : string = ""
 
-    printfn "host: %s" host
+    match Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") with
+    | "Local" -> 
+        url <- Environment.GetEnvironmentVariable("ASPNETCORE_URLS").Split(';') |> Array.last
+    | _ ->
+        let host = Env.getHostOrDefault "http://127.0.0.1"
+        let port = Env.getPortOrDefault "8080"
+        url <- sprintf "%s:%s" host port
+
+    printfn "%s" url
     
-    app.Run(sprintf "http://0.0.0.0:%s" port)
+    app.Run(url)
     0
