@@ -67,18 +67,10 @@ let main args =
 
     configureApp app
 
-    let port = 
-        Environment.GetEnvironmentVariable("PORT")
-        |> Option.ofObj
-        |> Option.defaultValue "8080"
+    let host = Env.getHostOrDefault "http://127.0.0.1"
+    let port = Env.getPortOrDefault "8080"
 
-    Environment.GetEnvironmentVariables()
-    |> Seq.cast<DictionaryEntry>
-    |> Seq.map (fun dictEnt -> (dictEnt.Key :?> string, dictEnt.Value :?> string)) 
-    |> Seq.sortBy (fun (k,_) -> k)
-    |> Seq.iter (fun d -> 
-        match d with
-        | (k, v) -> printfn "%A : %A" k v)
+    sprintf "host: %s" host |> ignore
     
     app.Run(sprintf "http://0.0.0.0:%s" port)
     0
