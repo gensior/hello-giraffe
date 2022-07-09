@@ -69,5 +69,5 @@ let main args =
         match Environment.GetEnvironmentVariable("PORT") with 
         | null -> "8080"
         | _ -> Environment.GetEnvironmentVariable("PORT")
-    app.Run(sprintf "http://localhost:%s" port)
+    app.Run(sprintf "http://0.0.0.0:%s" port)
     0
