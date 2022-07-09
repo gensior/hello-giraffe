@@ -64,5 +64,10 @@ let main args =
         app.UseDeveloperExceptionPage() |> ignore
 
     configureApp app
-    app.Run()
+
+    let port = 
+        match Environment.GetEnvironmentVariable("PORT") with 
+        | null -> "8080"
+        | _ -> Environment.GetEnvironmentVariable("PORT")
+    app.Run(sprintf "http://localhost:%s" port)
     0
