@@ -11,7 +11,7 @@ let getPortOrDefault default' =
     tryPort |> Option.defaultValue default'
 
 let getHostOrDefault (default':string) =
-    let host = tryGetEnv "ASPNETCORE_URL"
+    let host = tryGetEnv "ASPNETCORE_URLS"
     match host with
     | Some(h) ->
         h.Split(':')
